@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <Loading v-if="loading" />
     <router-link :to="{ name: 'welcome' }">
       <img class="logo" :src="require('@/assets/img/fundall.svg')" alt=""
     /></router-link>
@@ -50,28 +51,13 @@
               <th>Date</th>
               <th>Amount</th>
             </tr>
-            <tr v-show="showExpenses">
+            <tr v-show="showExpenses" v-for="item in items" :key="item.id">
               <td class="dot">
                 <img :src="require('@/assets/img/dot.svg')" alt="" />
               </td>
-              <td>30 Nov, 2018</td>
-              <td>₦30,000</td>
-            </tr>
-            <div class="divider"></div>
-            <tr v-show="showExpenses">
-              <td class="dot">
-                <img :src="require('@/assets/img/dot.svg')" alt="" />
-              </td>
-              <td>30 Nov, 2018</td>
-              <td>₦30,000</td>
-            </tr>
-            <div class="divider"></div>
-            <tr v-show="showExpenses">
-              <td class="dot">
-                <img :src="require('@/assets/img/dot.svg')" alt="" />
-              </td>
-              <td>30 Nov, 2018</td>
-              <td>₦30,000</td>
+              <td>{{ date }}</td>
+              <td>₦{{ item.amount }}</td>
+              <div class="divider"></div>
             </tr>
           </table>
           <div class="artwork" v-show="!showExpenses">
@@ -91,33 +77,34 @@
 
           <img :src="require('@/assets/img/skater.svg')" alt="" />
         </div>
-
         <div class="target-input">
           <div class="target">
             <label for="target">Target Monthly Expenses</label>
-            <input type="text" v-model="user.total_balance" />
+            <input type="text" v-model="user.total_balance" required />
           </div>
           <div class="date">
             <label for="date">Date</label>
-            <input type="date" id="date" />
+            <input type="date" id="date" required v-model="date" />
           </div>
         </div>
 
         <div class="expense-input">
           <div class="today">Today’s Expenses</div>
-          <form action="">
+          <form>
             <div class="control-group">
               <div class="control">
                 <input
                   type="text"
                   placeholder="Enter item"
                   v-model="items[0].name"
+                  required
                 />
                 <div class="gap"></div>
                 <input
                   type="text"
                   placeholder="Amount"
                   v-model="items[0].amount"
+                  required
                 />
               </div>
 
@@ -126,12 +113,14 @@
                   type="text"
                   placeholder="Enter item"
                   v-model="items[1].name"
+                  required
                 />
                 <div class="gap"></div>
                 <input
                   type="text"
                   placeholder="Amount"
                   v-model="items[1].amount"
+                  required
                 />
               </div>
 
@@ -140,18 +129,20 @@
                   type="text"
                   placeholder="Enter item"
                   v-model="items[2].name"
+                  required
                 />
                 <div class="gap"></div>
                 <input
                   type="text"
                   placeholder="Amount"
                   v-model="items[2].amount"
+                  required
                 />
               </div>
             </div>
             <div class="total">
               Total Actual Expenses: ₦
-              <input type="text" v-model="totalAmount" />
+              <input type="text" v-model="totalAmount" disabled />
             </div>
             <div class="save">
               <button class="btn" @click.prevent="save">
@@ -167,34 +158,39 @@
 
 <script>
 import axios from "axios";
+import Loading from "@/components/Loading";
 
 export default {
   name: "HomeView",
-  components: {},
+  components: {
+    Loading,
+  },
   data() {
     return {
-      showExpenses: true,
+      showExpenses: false,
       token: null,
       error: null,
       user: [],
       avatar: false,
       target: 0,
+      loading: false,
+      date: "",
 
       items: [
         {
           id: 1,
           name: "",
-          amount: 0,
+          amount: "",
         },
         {
           id: 2,
           name: "",
-          amount: 0,
+          amount: "",
         },
         {
           id: 3,
           name: "",
-          amount: 0,
+          amount: "",
         },
       ],
       totalAmount: 0,
@@ -215,15 +211,34 @@ export default {
 
   methods: {
     save() {
-      this.$toast.error("Error", {
-        position: "top",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      console.log(this.totalAmount);
+      if (
+        this.date == "" ||
+        this.totalAmount == 0 ||
+        this.items[2].name == "" ||
+        this.items[2].amount == 0
+      ) {
+        this.$toast.error("Please fill all fields including the Date", {
+          position: "top",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        this.$toast.success("Expenses Saved", {
+          position: "top",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        this.showExpenses = true;
+      }
     },
 
     logout() {
@@ -232,14 +247,11 @@ export default {
     },
 
     async uploadImage(e) {
+      this.loading = true;
       let img = e.target.files[0];
       let fd = new FormData();
 
       fd.append("avatar", img);
-
-      // axios.post("/upload-image", fd).then((resp) => {
-      //   this.imagePath = resp.data.path;
-      // });
 
       const headers = {
         "Content-Type": "multipart/form-data",
@@ -254,12 +266,20 @@ export default {
           { headers }
         );
       } catch (e) {
-        console.log(e.response);
-        // this.error = e.response.data.error.message;
+        this.loading = false;
+        this.$toast.error(e.response.data.error.message, {
+          position: "top",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
 
       if (response) {
-        console.log(response.data);
+        this.loading = false;
         window.location.reload();
       }
     },
@@ -278,14 +298,21 @@ export default {
           { headers }
         );
       } catch (e) {
-        console.log(e.response.data.error.message);
-        this.error = e.response.data.error.message;
+        this.$toast.error(e, {
+          position: "top",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        this.loading = false;
       }
 
       if (response) {
-        console.log(response.data.success.data);
         this.user = response.data.success.data;
-        // console.log(this.user.id);
+        this.loading = false;
       }
     },
   },
@@ -297,6 +324,7 @@ export default {
   },
 
   created() {
+    this.loading = true;
     this.token = this.$cookies.get("token");
     this.getUser();
   },
@@ -435,6 +463,20 @@ export default {
 
         tr {
           height: 3rem;
+          position: relative;
+
+          td {
+            height: 4rem;
+          }
+
+          .divider {
+            position: absolute;
+            display: block;
+            width: 100%;
+            border-bottom: 0.5px solid #e3ece5;
+            left: 0;
+            bottom: 0;
+          }
         }
 
         th {
@@ -447,11 +489,6 @@ export default {
 
         .dot {
           padding-left: 0.5rem;
-        }
-
-        .divider {
-          display: block;
-          height: 1rem;
         }
       }
 
@@ -572,6 +609,7 @@ export default {
 
           input {
             @include input;
+            cursor: not-allowed;
             outline: none;
 
             &:focus {

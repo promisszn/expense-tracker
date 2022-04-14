@@ -58,7 +58,7 @@
             </div>
 
             <div class="error" v-if="error">{{ error }}</div>
-            <button v-if="!isUploading">SIGN UP</button>
+            <button v-if="!isUploading">LOGIN</button>
             <button v-else class="loader">
               <div class="loader"></div>
             </button>
@@ -147,34 +147,16 @@ export default {
           { headers }
         );
       } catch (e) {
-        console.log(e.response.data.error.message);
         this.error = e.response.data.error.message;
         this.isUploading = false;
       }
 
       if (response) {
-        console.log(response.data.success.user);
         this.$cookies.set(
           "token",
           response.data.success.user.access_token,
           "5h"
         );
-        // this.$cookies.set(
-        //   "firstname",
-        //   response.data.success.user.firstname,
-        //   "5h"
-        // );
-        // this.$cookies.set(
-        //   "lastname",
-        //   response.data.success.user.lastname,
-        //   "5h"
-        // );
-        // this.$cookies.set(
-        //   "email",
-        //   response.data.success.user.email,
-        //   "5h"
-        // );
-        console.log(this.$cookies.get("token"));
         this.$router.push({ name: "home" });
         this.isUploading = false;
       }

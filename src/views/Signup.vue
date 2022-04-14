@@ -227,13 +227,11 @@ export default {
           { headers }
         );
       } catch (e) {
-        console.log(e.response.data.error.message);
         this.error = e.response.data.error.message;
         this.isUploading = false;
       }
 
       if (response) {
-        console.log(response.data);
         this.$router.push({ name: "login" });
         this.isUploading = false;
       }
