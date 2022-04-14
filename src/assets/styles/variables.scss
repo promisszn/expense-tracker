@@ -1,0 +1,38 @@
+// Font sizes
+$font-xsm: 0.875rem;
+$font-sm: 1rem;
+$font-md: 1.125rem;
+$font-lg: 1.25rem;
+$font-xlg: 1.5rem;
+
+// Colors
+$black: #000;
+$mint-green: #4de897;
+$dark-green: #30443c;
+
+// Mixins
+@mixin input {
+  background: #ffffff;
+  border: 1px solid #cad0c9;
+  border-radius: 4px;
+  padding: 15px 15px;
+}
+
+@mixin btn {
+  background: $mint-green;
+  color: $black;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0px 4px 10px rgba(118, 212, 45, 0.3);
+  border-radius: 3px;
+  text-align: center;
+  padding: 15px 15px;
+  cursor: pointer;
+
+  &:hover {
+    color: lighten($black, 50);
+    background: lighten($mint-green, 10);
+  }
+}

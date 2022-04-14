@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap");
+
+// for body
+html,
+body {
+  font-size: 100%;
+  font-family: "Nunito Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  scrollbar-width: 0;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+::placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: #30443c80;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid $mint-green;
+  -webkit-text-fill-color: $dark-green;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+// for tags
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+button {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: $black;
+}
