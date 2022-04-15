@@ -351,10 +351,21 @@ export default {
   margin: 0 2rem;
   margin-bottom: 2rem;
 
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+
   .lhs {
     width: 40%;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 1000px) {
+      width: 100%;
+      align-items: center;
+    }
 
     .user-details {
       display: flex;
@@ -511,6 +522,11 @@ export default {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.082937);
     border-radius: 6px;
 
+    @media (max-width: 1000px) {
+      width: 90%;
+      margin: 2rem 0;
+    }
+
     .banner {
       padding: 2rem 1rem;
       background: #ffffff;
@@ -541,6 +557,10 @@ export default {
         position: absolute;
         bottom: 13.5px;
         right: 1rem;
+
+        @media (max-width: 1000px) {
+          display: none;
+        }
       }
     }
 

@@ -26,6 +26,10 @@ export default {};
 header {
   margin: 2rem 5rem;
 
+  @media (max-width: 500px) {
+    margin: 2rem 1rem;
+  }
+
   nav {
     display: flex;
     align-items: center;

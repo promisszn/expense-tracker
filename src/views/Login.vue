@@ -182,10 +182,18 @@ export default {
   justify-content: space-around;
   margin: 0 6rem;
 
+  @media (max-width: 690px) {
+    margin: 0 2rem;
+  }
+
   .lhs {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    @media (max-width: 945px) {
+      display: none;
+    }
 
     h2,
     p {
@@ -213,6 +221,14 @@ export default {
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.082937);
       border-radius: 6px;
       padding: 4rem 5rem;
+
+      @media (max-width: 945px) {
+        margin-top: 0;
+      }
+
+      @media (max-width: 690px) {
+        padding: 4rem 2rem;
+      }
 
       .holla {
         font-size: 34px;

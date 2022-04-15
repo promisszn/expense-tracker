@@ -256,11 +256,28 @@ export default {
   justify-content: space-between;
   margin: 0 6rem;
 
+  @media (max-width: 1000px) {
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    margin: 0 2rem;
+  }
+
+  @media (max-width: 375px) {
+    margin: 0 1rem;
+  }
+
   .lhs {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
 
     img {
       width: 50%;
@@ -296,6 +313,18 @@ export default {
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.082937);
       border-radius: 6px;
       padding: 2rem 5rem;
+
+      @media (max-width: 1150px) {
+        margin-top: 0;
+      }
+
+      @media (max-width: 560px) {
+        padding: 4rem 2rem;
+      }
+
+      @media (max-width: 375px) {
+        padding: 4rem 0.5rem;
+      }
 
       form {
         display: flex;
