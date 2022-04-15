@@ -55,7 +55,7 @@
               <td class="dot">
                 <img :src="require('@/assets/img/dot.svg')" alt="" />
               </td>
-              <td>{{ date }}</td>
+              <td>{{ parsedDate }}</td>
               <td>₦{{ item.amount }}</td>
               <div class="divider"></div>
             </tr>
@@ -159,6 +159,7 @@
 <script>
 import axios from "axios";
 import Loading from "@/components/Loading";
+import moment from "moment";
 
 export default {
   name: "HomeView",
@@ -175,6 +176,7 @@ export default {
       target: 0,
       loading: false,
       date: "",
+      parsedDate: "",
 
       items: [
         {
@@ -211,7 +213,7 @@ export default {
 
   methods: {
     save() {
-      console.log(this.totalAmount);
+      this.parsedDate = moment(this.date, "yyy-MM-dd").format("MMM Do, YY");
       if (
         this.date == "" ||
         this.totalAmount == 0 ||
