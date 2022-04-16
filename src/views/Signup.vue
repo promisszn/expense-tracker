@@ -262,13 +262,9 @@ export default {
   }
 
   @media (max-width: 700px) {
-    margin: 0 2rem;
+    margin: 0;
   }
-
-  @media (max-width: 375px) {
-    margin: 0 1rem;
-  }
-
+  
   .lhs {
     display: flex;
     flex-direction: column;

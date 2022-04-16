@@ -183,7 +183,7 @@ export default {
   margin: 0 6rem;
 
   @media (max-width: 690px) {
-    margin: 0 2rem;
+    margin: 0;
   }
 
   .lhs {

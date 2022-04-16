@@ -372,8 +372,8 @@ export default {
       align-items: flex-end;
 
       .avatar {
-        width: 93px;
-        height: 89px;
+        width: 5.813rem;
+        height: 5.563rem;
         background: #c4c4c4;
         border-radius: 20px;
         display: flex;
@@ -395,7 +395,7 @@ export default {
         .avatar-image {
           width: 100%;
           height: 100%;
-          object-fit: contain;
+          object-fit: cover;
           border-radius: 20px;
         }
       }
