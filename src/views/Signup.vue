@@ -205,6 +205,7 @@ export default {
     },
 
     async signUp() {
+      this.error = null;
       this.isUploading = true;
       const user = {
         firstname: this.user.firstName,
@@ -227,13 +228,34 @@ export default {
           { headers }
         );
       } catch (e) {
+        if (!e.response) {
+          this.$toast.error("Network Error! Please Try Again", {
+            position: "top",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          this.isUploading = false;
+          return;
+        }
         this.error = e.response.data.error.message;
         this.isUploading = false;
       }
 
       if (response) {
         this.$router.push({ name: "login" });
-        this.isUploading = false;
+        this.$toast.success("Registration successful! Please Login", {
+          position: "top",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     },
   },
@@ -264,7 +286,7 @@ export default {
   @media (max-width: 700px) {
     margin: 0;
   }
-  
+
   .lhs {
     display: flex;
     flex-direction: column;

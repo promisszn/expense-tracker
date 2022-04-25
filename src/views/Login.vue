@@ -128,6 +128,7 @@ export default {
     },
 
     async signUp() {
+      this.error = null;
       this.isUploading = true;
       const user = {
         email: this.user.email,
@@ -147,6 +148,19 @@ export default {
           { headers }
         );
       } catch (e) {
+        if (!e.response) {
+          this.$toast.error("Network Error! Please Try Again", {
+            position: "top",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          this.isUploading = false;
+          return;
+        }
         this.error = e.response.data.error.message;
         this.isUploading = false;
       }
@@ -158,7 +172,6 @@ export default {
           "5h"
         );
         this.$router.push({ name: "home" });
-        this.isUploading = false;
       }
     },
   },
